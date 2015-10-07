@@ -14,3 +14,4 @@ Sistemas Inteligentes
 ·Jugar con la persistencia. Una vez realizado el grafo salvaguardarlo para no tener que volver a construirlo.
 ·ID -> {(nodo, coste), (nodo, coste), ...}
 ·Las ID de los nodos están contenidos en una tabla has. Se crea un diccionario de ID.
+·Usar método __iter__() que permite meter el objeto como iterable y recorrer cada uno de sus atributos
