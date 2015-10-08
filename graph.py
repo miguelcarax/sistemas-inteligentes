@@ -5,11 +5,10 @@ class Graph:
         self.nodes = {}
 
     def add_node(self, node):
-        #{id : obj_node}
-        self.nodes.update(node)
+        self.nodes.update({node['id']: node})
 
     def node_exist(self, node_id):
-        return node_id in nodes
+        return node_id in self.nodes
 
     def add_edge(self, node_src, node_end, cost):
-        nodes[node_src]['edges'].append((node_end, cost))
+        self.nodes[node_src]['edges'].append((node_end, cost))
