@@ -20,15 +20,16 @@ import graph
 
 graph = graph.Graph()
 # Captura de los datos de Ciudad Real
+# (MinLong, MinLat, MaxLon, MaxLat)
 map = osmapi.OsmApi().Map(-3.9524, 38.9531 , -3.8877, 39.0086)
 
 for map_dict in map:
     # Selecionamos las vías
     list_nodes = []
     if map_dict['type'] == 'way':
-        if  'highway' in map_dict['data']['tag'] and map_dict['data']['tag']['highway'] in ['trunk', 'residential', 'pedestrian']:
+        if 'highway' in map_dict['data']['tag'] and map_dict['data']['tag']['highway'] in ['trunk', 'residential', 'pedestrian']:
             way_dict = osmapi.OsmApi().WayGet(map_dict['data']['id'])
-            list_nodes = way_dict['nd']
+            list_nodes.append(way_dict['nd'])
 
     for i, node in enumerate(list_nodes):
         if not graph.node_exist(node):
@@ -48,5 +49,6 @@ for map_dict in map:
                 graph.add_edge(list_nodes[i], list_nodes[i-1], 0)
                 graph.add_edge(list_nodes[i-1], list_nodes[i], 0)
 
+    # Impresión de las aristas de los nodos.
     for i, node in enumerate(list_nodes):
-        print(node,"->", graph.nodes[node]['edges'])
+        print("[nodo]",node,"->", graph.nodes[node]['edges'])
