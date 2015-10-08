@@ -24,21 +24,29 @@ map = osmapi.OsmApi().Map(-3.9524, 38.9531 , -3.8877, 39.0086)
 
 for map_dict in map:
     # Selecionamos las vías
+    list_nodes = []
     if map_dict['type'] == 'way':
-        way_dict = osmapi.OsmApi().WayGet(map_dict['data']['id'])
-        list_nodes = way_dict['nd']
+        if  'highway' in map_dict['data']['tag'] and map_dict['data']['tag']['highway'] in ['trunk', 'residential', 'pedestrian']:
+            way_dict = osmapi.OsmApi().WayGet(map_dict['data']['id'])
+            list_nodes = way_dict['nd']
 
-        for i, node in enumerate(list_nodes):
-            if not graph.node_exist(node):
-                if i == 0:
-                    node_aux = osmapi.OsmApi().NodeGet(node)
-                    node_dic = {'lat' : node_aux['lat'], 'lon' : node_aux['lon'], 'id' : node_aux['id'], 'edges' : []}
-                    graph.add_node(node_dic)
+    for i, node in enumerate(list_nodes):
+        if not graph.node_exist(node):
+            if i == 0:
+                node_aux = osmapi.OsmApi().NodeGet(node)
+                node_dic = {'lat' : node_aux['lat'], 'lon' : node_aux['lon'], 'id' : node_aux['id'], 'edges' : []}
+                graph.add_node(node_dic)
 
-                else:
-                    node_aux = osmapi.OsmApi().NodeGet(node)
-                    node_dic = {'lat' : node_aux['lat'], 'lon' : node_aux['lon'], 'id' : node_aux['id'], 'edges': []}
-                    graph.add_node(node_dic)
-                    graph.add_edge(list_nodes[i], list_nodes[i-1], 0)
-                    graph.add_edge(list_nodes[i-1], list_nodes[i], 0)
-                    break
+            else:
+                node_aux = osmapi.OsmApi().NodeGet(node)
+                node_dic = {'lat' : node_aux['lat'], 'lon' : node_aux['lon'], 'id' : node_aux['id'], 'edges': []}
+                graph.add_node(node_dic)
+                graph.add_edge(list_nodes[i], list_nodes[i-1], 0)
+                graph.add_edge(list_nodes[i-1], list_nodes[i], 0)
+        else:
+            if i != 0:
+                graph.add_edge(list_nodes[i], list_nodes[i-1], 0)
+                graph.add_edge(list_nodes[i-1], list_nodes[i], 0)
+
+    for i, node in enumerate(list_nodes):
+        print(node,"->", graph.nodes[node]['edges'])
