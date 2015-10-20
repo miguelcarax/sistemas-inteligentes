@@ -11,6 +11,9 @@ class Graph:
     def get_nodes(self):
         return self.nodes
 
+    def get_node(self, node_id):
+        return self.nodes['node_id']
+
     def get_ady(self, node_id):
         return self.nodes[node_id]['edges']
 
