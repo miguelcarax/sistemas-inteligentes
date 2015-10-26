@@ -8,6 +8,16 @@ class Estado:
         self.localizacion = localizacion
         self.lista = lista
 
+    def esValido(self):
+        flag = graph.node_exist(self.localizacion['id'])
+        if flag:
+            for elemento in lista:
+                flag = graph.node_exist(elemento)
+                if not flag:
+                    break
+
+        return flag
+
     def getLista(self):
         return self.lista
 
@@ -26,6 +36,3 @@ class Estado:
                 sucesores.append(Estado(graph.get_node(item[0]), self.lista)
 
         return sucesores
-
-    def esValido(self):
-        pass
