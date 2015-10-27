@@ -26,7 +26,8 @@ nodo {
 espacioEstados = espacioEstados.EspacioEstados(-3.9524, 38.9531, -3.8877, 39.0086)
 estadoInicial = estado.Estado(espacioEstados.getGraph().get_node(828480065),[828480058, 12345, 54321])
 #lista = estados.sucesor(estado)
-print(espacioEstados.sucesor(estadoInicial))
+for item in espacioEstados.sucesor(estadoInicial):
+    print('[SUCESOR]',item)
 """
 for item in lista:
     localizacion = item[1].getLocalizacion()['id']

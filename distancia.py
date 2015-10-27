@@ -31,4 +31,4 @@ def dist(p1lon,p1lat,p2lon,p2lat):
 	x2=merc_x(p2lon)
 	y1=merc_y(p1lat)
 	y2=merc_y(p2lat)
-	return math.sqrt((x1-x2)**2+(y1-y2)**2)
+	return round(math.sqrt((x1-x2)**2+(y1-y2)**2), 2)
