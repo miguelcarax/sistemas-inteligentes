@@ -5,7 +5,7 @@ class Frontera:
     def insertar(self, nodoArbol):
         self.frontera.append(nodoArbol)
 
-    def eliminar(self):
+    def sacar_elemento(self):
         #Ordenacion de la frontera por valor (menor a mayor)
         self.frontera = sorted(self.frontera, key=lambda k: k['valor'])
         #Devuelve el elemento de menor valor de la frontera y lo elimina
