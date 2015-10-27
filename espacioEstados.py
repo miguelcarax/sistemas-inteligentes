@@ -1,7 +1,7 @@
 import osmapi
 import graph
 import distancia
-import Estado
+import estado
 """
 localizacion = diccionario tipo nodo
 lista        = lista de id de nodos
@@ -83,19 +83,19 @@ class EspacioEstados:
 
         return flag
 
-    def sucesor(self, estado):
+    def sucesor(self, estado_l):
         #adyacencia = [(nodo, coste), (nodo, coste), ...]
-        adyacencia = self.graph.get_ady(estado.getLocalizacion()['id'])
+        adyacencia = self.graph.get_ady(estado_l.getLocalizacion()['id'])
         sucesores  = []
         for item in adyacencia:
             #miramos si el item está en la lista de los que quedan por recorrer
             #sucesor = (nombre_accion, objeto_estado, coste)
-            if item[0] in estado.getLista():
-                estado.getLista().remove(item[0])
-                sucesores.append(("Desde {0} hasta {1}.".format(estado.getLocalizacion()['id'], item[0]), Estado.Estado(self.graph.get_node(item[0]), list(estado.getLista())), item[1]))
-                estado.getLista().append(item[0])
+            if item[0] in estado_l.getLista():
+                estado_l.getLista().remove(item[0])
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), list(estado_l.getLista())), item[1]))
+                estado_l.getLista().append(item[0])
             else:
-                sucesores.append(("Desde {0} hasta {1}.".format(estado.getLocalizacion()['id'], item[0]), Estado.Estado(self.graph.get_node(item[0]), list(estado.getLista())), item[1]))
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), list(estado_l.getLista())), item[1]))
         return sucesores
 
     def getGraph(self):
