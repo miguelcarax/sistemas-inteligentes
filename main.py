@@ -1,6 +1,8 @@
 #!/usr/bin/python
 #Este archivo usa el encoding: utf-8
 
+import EspacioEstados
+import Estado
 """
 Estructura principal
 ----------------------------------------
@@ -17,45 +19,16 @@ nodo {
 }
 """
 
-import osmapi
-import graph
-import distancia
-
-graph = graph.Graph()
-
-# Captura de los datos de Ciudad Real
-# (MinLong, MinLat, MaxLon, MaxLat)
-#map = osmapi.OsmApi().Map(-3.9524, 38.9531 , -3.8877, 39.0086)
-map = osmapi.OsmApi().Map(-3.9310, 38.9853, -3.9278, 38.9870)
-
-for map_dict in map:
-    # Tipo vía AND sea 'highway' tAND residencial, nacional, peatonal
-    if map_dict['type'] == 'way' and 'highway' in map_dict['data']['tag'] and map_dict['data']['tag']['highway'] in ['trunk', 'residential', 'pedestrian']:
-        list_nodes = map_dict['data']['nd']
-
-        for i, node in enumerate(list_nodes):
-            if not graph.node_exist(node):
-                if i == 0:
-                    node_aux = osmapi.OsmApi().NodeGet(node)
-                    node_dic = {'lat' : node_aux['lat'], 'lon' : node_aux['lon'], 'id' : node_aux['id'], 'edges' : []}
-                    graph.add_node(node_dic)
-
-                else:
-                    node_aux = osmapi.OsmApi().NodeGet(node)
-                    node_dic = {'lat' : node_aux['lat'], 'lon' : node_aux['lon'], 'id' : node_aux['id'], 'edges': []}
-                    graph.add_node(node_dic)
-                    #Devuelve la distancia entre los dos nodos
-                    dist = distancia.dist(graph.get_nodes()[list_nodes[i]]['lon'], graph.get_nodes()[list_nodes[i]]['lat'], graph.get_nodes()[list_nodes[i-1]]['lon'], graph.get_nodes()[list_nodes[i-1]]['lat'])
-                    graph.add_edge(list_nodes[i], list_nodes[i-1], dist)
-                    graph.add_edge(list_nodes[i-1], list_nodes[i], dist)
-            else:
-                if i != 0:
-                    dist = distancia.dist(graph.get_nodes()[list_nodes[i]]['lon'], graph.get_nodes()[list_nodes[i]]['lat'], graph.get_nodes()[list_nodes[i-1]]['lon'], graph.get_nodes()[list_nodes[i-1]]['lat'])
-                    graph.add_edge(list_nodes[i], list_nodes[i-1], dist)
-                    graph.add_edge(list_nodes[i-1], list_nodes[i], dist)
-
     # Impresión de las aristas de los nodos.
-        for i, node in enumerate(list_nodes):
-            print("[node]",node,"->", graph.get_nodes()[node]['edges'])
+    #    for i, node in enumerate(list_nodes):
+    #        print("[node]",node,"->", graph.get_nodes()[node]['edges'])
 
-del map, map_dict, list_nodes
+estados = EspacioEstados.EspacioEstados(-3.9524, 38.9531, -3.8877, 39.0086)
+estado = Estado.Estado(estados.getGraph().get_node(828480065),[828480058, 12345, 54321])
+lista = estados.sucesor(estado)
+
+for item in lista:
+    localizacion = item[1].getLocalizacion()['id']
+    nodos = item[1].getLista()
+    print(str(item[0]) + " " + str(localizacion) + " " + str(nodos) + " " + str(item[2]))
+    print("\n")
