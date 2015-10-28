@@ -76,7 +76,7 @@ class EspacioEstados:
     def esValido(self, estado):
         flag = self.graph.node_exist(estado.getLocalizacion()['id'])
         if flag:
-            for elemento in lista:
+            for elemento in estado.getLista():
                 flag = self.graph.node_exist(elemento)
                 if not flag:
                     break
