@@ -3,7 +3,7 @@ class Nodo:
         self.padre_e = padre_l
         self.estado_e = estado_l
         self.costo_e = costo_l
-        self.accion_e = accion_L
+        self.accion_e = accion_l
         self.profundidad_e = profundidad_l
         self.valor_e = valor_l
 
@@ -19,8 +19,8 @@ class Nodo:
     def get_accion(self):
         return self.accion_e
 
-    def get_profuncidad(self):
-        reurn self.profundidad_e
+    def get_profundidad(self):
+        return self.profundidad_e
 
     def get_valor(self):
         return self.valor_e

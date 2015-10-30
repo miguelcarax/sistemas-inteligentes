@@ -3,12 +3,18 @@ import estado
 
 class Problema:
     def __init__(self, estadoInicial_l, espacioEstados_l):
-        self.espacioEstados_e = espacioEstados
+        self.espacioEstados_e = espacioEstados_l
         if self.espacioEstados_e.esValido(estadoInicial_l):
             self.estadoInicial_e = estadoInicial_l
         else:
             print('Estado No Válido!!!')
 
 
-    def esObjetivo(self, estado):
-        return not estado.get_lista()
+    def esObjetivo(self, estado_l):
+        return not estado_l.getLista()
+
+    def get_estadoInicial(self):
+        return self.estadoInicial_e
+
+    def get_espacioEstados(self) :
+        return self.espacioEstados_e

@@ -3,6 +3,9 @@
 
 import espacioEstados
 import estado
+import problema
+import frontera
+import nodo
 """
 Estructura principal
 ----------------------------------------
@@ -19,19 +22,81 @@ nodo {
 }
 """
 
+
+
+
+
+
+
+def CrearSolucion(n_actual):
+    solucion = []
+    while n_actual.get_padre() is not None:
+        solucion.insert(0,n_actual.get_estado())
+        n_actual = n_actual.get_padre()
+    solucion.insert(0,n_actual.get_estado())
+    return solucion
+
+def CrearListaNodosArbol(lista_sucesores,n_actual, prof_max, estrategia):
+    nodos_arbol = []
+
+    if estrategia == 'PROFUNDIDAD':
+        if prof_max >= n_actual.get_profundidad():
+            for suc in lista_sucesores:
+                nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,1/(n_actual.get_profundidad()+1)))
+
+    elif estrategia == 'ANCHURA':
+        for suc in lista_sucesores:
+            nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,n_actual.get_profundidad()+1))
+
+    elif estrategia == 'COSTO UNIFORME':
+        for suc in lista_sucesores:
+            nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,n_actual.get_costo()+suc[2]))
+
+    return nodos_arbol
+
+def Busqueda_acotada(problema,estrategia,prof_max):
+    frontera_l = frontera.Frontera()
+    n_inicial = nodo.Nodo(None, problema.get_estadoInicial(),0,None,0,0)
+    frontera_l.insertar(n_inicial)
+    solucion = False
+    estados_solucion = []
+
+    while not solucion and not frontera_l.esVacia():
+        n_actual = frontera_l.sacar_elemento()
+        if problema.esObjetivo(n_actual.get_estado()) :
+            solucion = True
+
+        else :
+            lista_sucesores = problema.get_espacioEstados().sucesor(n_actual.get_estado())
+            lista_nodos = CrearListaNodosArbol(lista_sucesores,n_actual,prof_max,estrategia)
+            for item in lista_nodos:
+                frontera_l.insertar(item)
+
+    if solucion :
+        estados_solucion = CrearSolucion(n_actual)
+    return estados_solucion
+
+def Busqueda(problema,estrategia,max_prof, inc_prof):
+    solucion = []
+    prof_act = inc_prof
+    it=0
+
+    while not solucion and (prof_act <= max_prof):
+        print(it)
+        solucion = Busqueda_acotada(problema,estrategia,prof_act)
+        prof_act += inc_prof
+        it+=1
+    return solucion
+
     # Impresión de las aristas de los nodos.
     #    for i, node in enumerate(list_nodes):
     #        print("[node]",node,"->", graph.get_nodes()[node]['edges'])
 
-espacioEstados = espacioEstados.EspacioEstados(-3.9524, 38.9531, -3.8877, 39.0086)
-estadoInicial = estado.Estado(espacioEstados.getGraph().get_node(828480065),[828480058, 12345, 54321])
-#lista = estados.sucesor(estado)
-for item in espacioEstados.sucesor(estadoInicial):
-    print('[SUCESOR]',item)
-"""
-for item in lista:
-    localizacion = item[1].getLocalizacion()['id']
-    nodos = item[1].getLista()
-    print(str(item[0]) + " " + str(localizacion) + " " + str(nodos) + " " + str(item[2]))
-    print("\n")
-"""
+espacioEstados = espacioEstados.EspacioEstados(-3.93201, 38.98396, -3.92111, 38.98875)
+estadoInicial = estado.Estado(803292594,[814770929, 2963385997, 522198144])
+problema = problema.Problema(estadoInicial, espacioEstados)
+
+solucion = Busqueda(problema, 'PROFUNDIDAD', 25, 1)
+
+for item in solucion:
+    print (item)

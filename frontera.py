@@ -1,5 +1,5 @@
 class Frontera:
-    def __init__(self):
+    def __init__(self,):
         self.frontera = []
 
     def insertar(self, nodoArbol):
@@ -7,7 +7,7 @@ class Frontera:
 
     def sacar_elemento(self):
         #Ordenacion de la frontera por valor (menor a mayor)
-        self.frontera = sorted(self.frontera, key=lambda k: k['valor'])
+        self.frontera = sorted(self.frontera, key=lambda k: k.get_valor())
         #Devuelve el elemento de menor valor de la frontera y lo elimina
         return self.frontera.pop(0)
 
