@@ -46,7 +46,21 @@ def CrearListaNodosArbol(lista_sucesores,n_actual, prof_max, estrategia):
             nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,n_actual.get_costo()+suc[2]))
 
     return nodos_arbol
+"""
+    elif estrategia == 'A':
+        n_cercano = None
+        n_visitar = n_actual.get_estado().getLista()
 
+        for item in n_visitar:
+            if n_cercano == None:
+                n_cercano = item
+            else:
+                if distancia.dist(n_actual['lon'],n_actual['lat'],n_cercano['lon'],n_cercano['lat']) > distancia.dist(n_actual['lon'],n_actual['lat'],item['lon'],item['lat']):
+                    n_cercano = item
+
+        for suc in lista_sucesores:
+            nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,n_actual.get_costo()+suc[2]+distancia.dist(n_actual['lon'],n_actual['lat'],n_cercano['lon'],n_cercano['lat'])))
+"""
 def Busqueda_acotada(problema,estrategia,prof_max):
     frontera_l = frontera.Frontera()
     n_inicial = nodo.Nodo(None, problema.get_estadoInicial(),0,None,0,0)
