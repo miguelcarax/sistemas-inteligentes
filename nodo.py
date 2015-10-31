@@ -24,3 +24,8 @@ class Nodo:
 
     def get_valor(self):
         return self.valor_e
+
+    def __repr__(self):
+        #return str(self.localizacion['id']) + "por visitar: "+ str(self.lista)
+        informacion = '{0}'.format(self.valor_e)
+        return informacion

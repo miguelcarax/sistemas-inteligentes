@@ -34,17 +34,13 @@ class EspacioEstados:
         """
         Como al sacar los nodos de las calles estás solo tienen como información su id y nosotros necesitamos más información, lo que hacemos es ir cogiendo los nodos de las calles y buscandolos en el diccionario de nodos totales que tenemos, que es auxiliar.
         Después sacamos la información que necesitamos de ese nodo de 'dict_nodes' y creamos el nodo auxiliar para después añadirlo al grafo.
-
         ·list_ways  : lista de calles que hemos recopilado antes.
         ·way_dict   : objeto iterador en la lista de calles.
         ·list_nodes : la lista de nodos que tiene una calle.
-
         La sintaxis es la siguiente:
         ·Si el nodo no existe en el grafo y este no es el primero lo añadimos al grafo, en caso de que no sea el primero, lo añadimos igualmente y después creamos el 'arco' entre el y el anterior y viceversa (el elemento actual de la lista 'i' y el elemento anterior 'i-1').
         ·Todo esto se realiza mediante la interfaz del grafo 'graph.add_node()' y 'graph.add_edge()'.
-
         ·Para crear los arcos de los nodos que coinciden en varias calles lo hacemos mediante la comprobación de que dicho nodo ya está en el grafo, ya que la otra calle en la que está ya la hemos recorrido.
-
         """
         for way_dict in list_ways:
             list_nodes = way_dict['nd']
