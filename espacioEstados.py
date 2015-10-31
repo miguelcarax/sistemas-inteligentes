@@ -34,17 +34,13 @@ class EspacioEstados:
         """
         Como al sacar los nodos de las calles estás solo tienen como información su id y nosotros necesitamos más información, lo que hacemos es ir cogiendo los nodos de las calles y buscandolos en el diccionario de nodos totales que tenemos, que es auxiliar.
         Después sacamos la información que necesitamos de ese nodo de 'dict_nodes' y creamos el nodo auxiliar para después añadirlo al grafo.
-
         ·list_ways  : lista de calles que hemos recopilado antes.
         ·way_dict   : objeto iterador en la lista de calles.
         ·list_nodes : la lista de nodos que tiene una calle.
-
         La sintaxis es la siguiente:
         ·Si el nodo no existe en el grafo y este no es el primero lo añadimos al grafo, en caso de que no sea el primero, lo añadimos igualmente y después creamos el 'arco' entre el y el anterior y viceversa (el elemento actual de la lista 'i' y el elemento anterior 'i-1').
         ·Todo esto se realiza mediante la interfaz del grafo 'graph.add_node()' y 'graph.add_edge()'.
-
         ·Para crear los arcos de los nodos que coinciden en varias calles lo hacemos mediante la comprobación de que dicho nodo ya está en el grafo, ya que la otra calle en la que está ya la hemos recorrido.
-
         """
         for way_dict in list_ways:
             list_nodes = way_dict['nd']
@@ -74,9 +70,9 @@ class EspacioEstados:
     #Comprueba si el estado existe en el grafo y todos los nodos que le quedan por visitar
     #también existen en el grafo
     def esValido(self, estado):
-        flag = self.graph.node_exist(estado.getLocalizacion()['id'])
+        flag = self.graph.node_exist(estado.getLocalizacion())
         if flag:
-            for elemento in lista:
+            for elemento in estado.getLista():
                 flag = self.graph.node_exist(elemento)
                 if not flag:
                     break
@@ -85,17 +81,17 @@ class EspacioEstados:
 
     def sucesor(self, estado_l):
         #adyacencia = [(nodo, coste), (nodo, coste), ...]
-        adyacencia = self.graph.get_ady(estado_l.getLocalizacion()['id'])
+        adyacencia = self.graph.get_ady(estado_l.getLocalizacion())
         sucesores  = []
         for item in adyacencia:
             #miramos si el item está en la lista de los que quedan por recorrer
             #sucesor = (nombre_accion, objeto_estado, coste)
             if item[0] in estado_l.getLista():
                 estado_l.getLista().remove(item[0])
-                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), list(estado_l.getLista())), item[1]))
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion(), item[0]), estado.Estado(self.graph.get_node(item[0])['id'], list(estado_l.getLista())), item[1]))
                 estado_l.getLista().append(item[0])
             else:
-                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), list(estado_l.getLista())), item[1]))
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion(), item[0]), estado.Estado(self.graph.get_node(item[0])['id'], list(estado_l.getLista())), item[1]))
         return sucesores
 
     def getGraph(self):
