@@ -29,3 +29,5 @@ class Nodo:
         #return str(self.localizacion['id']) + "por visitar: "+ str(self.lista)
         informacion = '{0}'.format(self.valor_e)
         return informacion
+    def __lt__(self, other):
+        return self.valor_e < other.get_valor()

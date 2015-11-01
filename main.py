@@ -6,6 +6,7 @@ import estado
 import problema
 import frontera
 import nodo
+import distancia
 """
 Estructura principal
 ----------------------------------------
@@ -29,7 +30,7 @@ def CrearSolucion(n_actual):
     solucion.insert(0,n_actual.get_estado())
     return solucion
 
-def CrearListaNodosArbol(lista_sucesores,n_actual, prof_max, estrategia):
+def CrearListaNodosArbol(problema, lista_sucesores,n_actual, prof_max, estrategia):
     nodos_arbol = []
 
     if estrategia == 'PROFUNDIDAD':
@@ -45,22 +46,35 @@ def CrearListaNodosArbol(lista_sucesores,n_actual, prof_max, estrategia):
         for suc in lista_sucesores:
             nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,n_actual.get_costo()+suc[2]))
 
-    return nodos_arbol
-"""
     elif estrategia == 'A':
-        n_cercano = None
+        flag = False
         n_visitar = n_actual.get_estado().getLista()
 
+        locAct = n_actual.get_estado().getLocalizacion()
+        lonAct = locAct['lon']
+        latAct = locAct['lat']
+
         for item in n_visitar:
-            if n_cercano == None:
-                n_cercano = item
+            if not flag:
+                locCerc = problema.get_espacioEstados().getNodeOsm(item)
+                loncerc = locCerc['lon']
+                latcerc = locCerc['lat']
+                flag = True
             else:
-                if distancia.dist(n_actual['lon'],n_actual['lat'],n_cercano['lon'],n_cercano['lat']) > distancia.dist(n_actual['lon'],n_actual['lat'],item['lon'],item['lat']):
-                    n_cercano = item
+                locItem = problema.get_espacioEstados().getNodeOsm(item)
+                lonItem = locItem['lon']
+                latItem = locItem['lat']
+                if distancia.dist(lonAct,latAct,loncerc,latcerc) > distancia.dist(lonAct,latAct,lonItem,latItem):
+                    locCerc = problema.get_espacioEstados().getNodeOsm(item)
+                    loncerc = locCerc['lon']
+                    latcerc = locCerc['lat']
 
         for suc in lista_sucesores:
-            nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,n_actual.get_costo()+suc[2]+distancia.dist(n_actual['lon'],n_actual['lat'],n_cercano['lon'],n_cercano['lat'])))
-"""
+            nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,n_actual.get_costo()+suc[2]+distancia.dist(lonAct,latAct,loncerc,latcerc)))
+
+
+    return nodos_arbol
+
 def Busqueda_acotada(problema,estrategia,prof_max):
     frontera_l = frontera.Frontera()
     n_inicial = nodo.Nodo(None, problema.get_estadoInicial(),0,None,0,0)
@@ -73,27 +87,30 @@ def Busqueda_acotada(problema,estrategia,prof_max):
 ##############################################################################
     while not solucion and not frontera_l.esVacia():
         n_actual = frontera_l.sacar_elemento()
-##############################################################################
+##########################################################################
+        """
         p_actN = n_actual.get_profundidad()
         it+=1
         if p_act != p_actN:
             p_act = p_actN
             print(p_act)
             print(frontera_l.numFrontera())
-        #if it % 120 == 0:
-        #    solucion = True
-        #    lista = frontera_l.getLista()
-        #    print(lista)
+        """
 
 ###############################################################################
         if problema.esObjetivo(n_actual.get_estado()) :
             solucion = True
         else :
             lista_sucesores = problema.get_espacioEstados().sucesor(n_actual.get_estado())
-            lista_nodos = CrearListaNodosArbol(lista_sucesores,n_actual,prof_max,estrategia)
+            lista_nodos = CrearListaNodosArbol(problema,lista_sucesores,n_actual,prof_max,estrategia)
             for item in lista_nodos:
                 frontera_l.insertar(item)
 
+        #if it % 15000 == 0:
+            #lista = frontera_l.getLista()
+            #print(lista)
+            #solucion =  True
+        #    print(n_actual.get_valor())
     if solucion :
         estados_solucion = CrearSolucion(n_actual)
     return estados_solucion
@@ -104,7 +121,7 @@ def Busqueda(problema,estrategia,max_prof, inc_prof):
     it=0
 
     while not solucion and (prof_act <= max_prof):
-        #print(it)
+        print(it)
         solucion = Busqueda_acotada(problema,estrategia,prof_act)
         prof_act += inc_prof
         it+=1
@@ -115,12 +132,14 @@ def Busqueda(problema,estrategia,max_prof, inc_prof):
     #        print("[node]",node,"->", graph.get_nodes()[node]['edges'])
 
 espacioEstados = espacioEstados.EspacioEstados(-3.9524, 38.9531, -3.8877, 39.0086)
-estadoInicial = estado.Estado(828480073,[828479978, 833754743])
-#estadoInicial = estado.Estado(804689213,[765309507, 806369170])
+#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(828480073),[833754743])
+#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(828480073),[828479978, 833754743])
+estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
+estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
 #estadoInicial = estado.Estado(803292594,[814770929, 2963385997, 522198144])
-problema = problema.Problema(estadoInicial, espacioEstados)
+problema_l = problema.Problema(estadoInicial, espacioEstados)
 
-solucion = Busqueda(problema, 'ANCHURA', 55, 1)
+solucion = Busqueda(problema_l, 'ANCHURA', 55, 1)
 
 for item in solucion:
     print (item)

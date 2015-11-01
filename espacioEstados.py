@@ -15,6 +15,7 @@ class EspacioEstados:
 
     def CrearGrafoFisico(self, graph, MinLong, MinLat, MaxLon, MaxLat):
         map = osmapi.OsmApi().Map(MinLong, MinLat, MaxLon, MaxLat)
+        print("leido")
         dict_nodes = {}
         list_ways = []
         """
@@ -70,7 +71,7 @@ class EspacioEstados:
     #Comprueba si el estado existe en el grafo y todos los nodos que le quedan por visitar
     #también existen en el grafo
     def esValido(self, estado):
-        flag = self.graph.node_exist(estado.getLocalizacion())
+        flag = self.graph.node_exist(estado.getLocalizacion()['id'])
         if flag:
             for elemento in estado.getLista():
                 flag = self.graph.node_exist(elemento)
@@ -81,18 +82,18 @@ class EspacioEstados:
 
     def sucesor(self, estado_l):
         #adyacencia = [(nodo, coste), (nodo, coste), ...]
-        adyacencia = self.graph.get_ady(estado_l.getLocalizacion())
+        adyacencia = self.graph.get_ady(estado_l.getLocalizacion()['id'])
         sucesores  = []
         for item in adyacencia:
             #miramos si el item está en la lista de los que quedan por recorrer
             #sucesor = (nombre_accion, objeto_estado, coste)
             if item[0] in estado_l.getLista():
                 estado_l.getLista().remove(item[0])
-                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion(), item[0]), estado.Estado(self.graph.get_node(item[0])['id'], list(estado_l.getLista())), item[1]))
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), list(estado_l.getLista())), item[1]))
                 estado_l.getLista().append(item[0])
             else:
-                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion(), item[0]), estado.Estado(self.graph.get_node(item[0])['id'], list(estado_l.getLista())), item[1]))
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), list(estado_l.getLista())), item[1]))
         return sucesores
 
-    def getGraph(self):
-        return self.graph
+    def getNodeOsm(self,id):
+        return self.graph.get_node(id)
