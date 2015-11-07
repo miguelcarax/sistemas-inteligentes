@@ -37,6 +37,16 @@ def CrearSolucion(n_actual):
     solucion.insert(0,n_actual.get_estado())
     return solucion
 
+def EsAntecesor(n_actual, e_suc):
+    flag = True
+    while n_actual.get_padre() is not None and flag:
+        if n_actual.get_estado() == e_suc:
+            flag = False
+        n_actual = n_actual.get_padre()
+    if n_actual.get_estado() == e_suc:
+        flag = False
+    return flag
+
 def CrearListaNodosArbol(problema, lista_sucesores,n_actual, prof_max, estrategia):
     nodos_arbol = []
 
@@ -45,6 +55,7 @@ def CrearListaNodosArbol(problema, lista_sucesores,n_actual, prof_max, estrategi
             if n_actual.get_padre() is not None:
                 for suc in lista_sucesores:
                     if n_actual.get_padre().get_estado() != suc[1]:
+                    #if EsAntecesor(n_actual, suc[1]):
                         nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,1/(n_actual.get_profundidad()+1)))
             else:
                 for suc in lista_sucesores:
@@ -53,7 +64,8 @@ def CrearListaNodosArbol(problema, lista_sucesores,n_actual, prof_max, estrategi
     elif estrategia == 'ANCHURA':
         if n_actual.get_padre() is not None:
             for suc in lista_sucesores:
-                if n_actual.get_padre().get_estado() != suc[1]:
+                #if n_actual.get_padre().get_estado() != suc[1]:
+                if EsAntecesor(n_actual, suc[1]):
                     nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,n_actual.get_profundidad()+1))
         else:
             for suc in lista_sucesores:
@@ -62,7 +74,8 @@ def CrearListaNodosArbol(problema, lista_sucesores,n_actual, prof_max, estrategi
     elif estrategia == 'COSTOUNIFORME':
         if n_actual.get_padre() is not None:
             for suc in lista_sucesores:
-                if n_actual.get_padre().get_estado() != suc[1]:
+                #if n_actual.get_padre().get_estado() != suc[1]:
+                if EsAntecesor(n_actual, suc[1]):
                     nodos_arbol.append(nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, n_actual.get_costo() + suc[2]))
         else:
             for suc in lista_sucesores:
@@ -81,7 +94,7 @@ def Busqueda_acotada(problema,estrategia,prof_max):
 ##############################################################################
     while not solucion and not frontera_l.esVacia():
         n_actual = frontera_l.sacar_elemento()
-        print(n_actual)
+        #print(n_actual)
         it+=1
 ##########################################################################
 
@@ -91,8 +104,8 @@ def Busqueda_acotada(problema,estrategia,prof_max):
             p_act = p_actN
             print(p_act)
             print(frontera_l.numFrontera())
-        """
 
+        """
 ###############################################################################
         if problema.esObjetivo(n_actual.get_estado()) :
             solucion = True
@@ -129,13 +142,13 @@ def Busqueda(problema,estrategia,max_prof, inc_prof):
 
 
 espacioEstados = espacioEstados.EspacioEstados(-3.9524, 38.9531, -3.8877, 39.0086)
-estadoInicial = estado.Estado(espacioEstados.getNodeOsm(806369151),[814770792])
+#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(806369151),[814770792])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(828480073),[828479978, 833754743])
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
+estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
 #estadoInicial = estado.Estado(803292594,[814770929, 2963385997, 522198144
 problema_l = problema.Problema(estadoInicial, espacioEstados)
-solucion = Busqueda(problema_l, COSTO, 55, 1)
+solucion = Busqueda(problema_l, PROFUNDIDAD, 55, 1)
 
 for item in solucion:
     print (item)
