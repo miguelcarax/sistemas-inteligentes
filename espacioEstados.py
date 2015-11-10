@@ -8,14 +8,13 @@ lista        = lista de id de nodos
 """
 class EspacioEstados:
 
-    def __init__(self, MinLong, MinLat, MaxLon, MaxLat):
+    def __init__(self, coor):
         #Construimos el grafo físico en el que estará basado nuestro espacio de estados
         self.graph = graph.Graph()
-        self.CrearGrafoFisico(graph, MinLong, MinLat, MaxLon, MaxLat)
+        self.CrearGrafoFisico(graph, coor[0], coor[1], coor[2], coor[3])
 
     def CrearGrafoFisico(self, graph, MinLong, MinLat, MaxLon, MaxLat):
         map = osmapi.OsmApi().Map(MinLong, MinLat, MaxLon, MaxLat)
-        print("leido")
         dict_nodes = {}
         list_ways = []
         """
@@ -65,9 +64,6 @@ class EspacioEstados:
                         self.graph.add_edge(list_nodes[i], list_nodes[i-1], dist)
                         self.graph.add_edge(list_nodes[i-1], list_nodes[i], dist)
 
-        """
-        La salida del programa es la lista de adyacencia de el nodo.
-        """
     #Comprueba si el estado existe en el grafo y todos los nodos que le quedan por visitar
     #también existen en el grafo
     def esValido(self, estado):
@@ -93,6 +89,7 @@ class EspacioEstados:
                 estado_l.getLista().append(item[0])
             else:
                 sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), sorted(estado_l.getLista())), item[1]))
+
         return sucesores
 
     def getNodeOsm(self,id):

@@ -11,8 +11,9 @@ class Estado:
         return self.localizacion
 
     def __repr__(self):
-        #return str(self.localizacion['id']) + "por visitar: "+ str(self.lista)
         informacion = '[NODO {0}][por visitar: {1}]'.format(self.localizacion['id'], self.lista)
         return informacion
+
     def __eq__(self, other):
+        """ Decide si los dos elementos son iguales"""
         return other.localizacion == self.localizacion and other.lista == self.lista

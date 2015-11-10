@@ -28,6 +28,7 @@ class Graph:
     #Devuelve si un nodo dado existe dentro del grafo
     def node_exist(self, node_id):
         return node_id in self.nodes
-
+        
+    #Devuelve un nodo dada una ID
     def get_node(self, id):
         return self.nodes[id]

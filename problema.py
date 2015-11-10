@@ -7,7 +7,7 @@ class Problema:
         if self.espacioEstados_e.esValido(estadoInicial_l):
             self.estadoInicial_e = estadoInicial_l
         else:
-            print('Estado No Válido!!!')
+            print('¡¡¡Estado No Válido!!!\nIntroduzca uno válido.')
 
 
     def esObjetivo(self, estado_l):
