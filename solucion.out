@@ -1,0 +1,13 @@
+Coordenadas de búsqueda: (-3.9524, 38.9531, -3.8877, 39.0086)
+Nodo inicial: 828480073
+Algoritmo de búsqueda: COSTOUNIFORME
+[0][NODO 828480073][por visitar: [828479978, 833754743]]
+[1][NODO 828480065][por visitar: [828479978, 833754743]]
+[2][NODO 828480036][por visitar: [833754743, 828479978]]
+[3][NODO 828479978][por visitar: [833754743]]
+[4][NODO 828479976][por visitar: [833754743]]
+[5][NODO 828479974][por visitar: [833754743]]
+[6][NODO 828479973][por visitar: [833754743]]
+[7][NODO 828479971][por visitar: [833754743]]
+[8][NODO 833754736][por visitar: [833754743]]
+[9][NODO 833754743][por visitar: []]
