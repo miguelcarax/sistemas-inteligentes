@@ -106,7 +106,7 @@ def CrearListaNodosArbol(problema_l, lista_sucesores,n_actual, prof_max, estrate
 
     elif estrategia == 'A':
         for suc in lista_sucesores:
-            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, (n_actual.get_costo() + suc[2]) + problema_l.h1(suc[1]))
+            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, (n_actual.get_costo() + suc[2]) + problema_l.h2(suc[1]))
             if not poda(n_nuevo):
                 nodos_arbol.append(n_nuevo)
 
@@ -126,12 +126,11 @@ def Busqueda_acotada(problema_l,estrategia,prof_max):
 
         ############################################
         """
-        it+=1
         if(it%500 == 0):
             print(str(len(estados)) +" "+ str(len(frontera_l.frontera)) + " " + str(it))
         """
         ############################################
-
+        it+=1
         if problema_l.esObjetivo(n_actual.get_estado()):
             solucion = True
         else:
@@ -139,6 +138,7 @@ def Busqueda_acotada(problema_l,estrategia,prof_max):
             lista_nodos = CrearListaNodosArbol(problema_l, lista_sucesores,n_actual,prof_max,estrategia)
             for item in lista_nodos:
                 frontera_l.insertar(item)
+    print(it)
     if solucion :
         estados_solucion = CrearSolucion(n_actual)
 
@@ -147,25 +147,22 @@ def Busqueda_acotada(problema_l,estrategia,prof_max):
 def Busqueda(problema,estrategia,max_prof, inc_prof):
     solucion = []
     prof_act = inc_prof
-    it = 1
 
     while not solucion and (prof_act <= max_prof):
-        print(it)
         solucion = Busqueda_acotada(problema,estrategia,prof_act)
         prof_act += inc_prof
-        it+=1
 
     return solucion
 
 # main
-estrategia  = A
+estrategia  = COSTO
 nodoInicial = 812954564
 lista = [803292583, 812954600]
 coordenadas = (-3.9524, 38.9531, -3.8877, 39.0086)
 
 espacioEstados = espacioEstados.EspacioEstados(coordenadas)
-estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412,818781546, 824372789, 804689127, 828480073, 827212563, 804689127])
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283])
+#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412,818781546, 824372789, 804689127, 828480073, 827212563, 804689127])
+estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(nodoInicial),lista)
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
