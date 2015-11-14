@@ -15,6 +15,7 @@ class EspacioEstados:
 
     def CrearGrafoFisico(self, graph, MinLong, MinLat, MaxLon, MaxLat):
         map = osmapi.OsmApi().Map(MinLong, MinLat, MaxLon, MaxLat)
+        print("leido")
         dict_nodes = {}
         list_ways = []
         """

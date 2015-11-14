@@ -10,6 +10,12 @@ class Estado:
     def getLocalizacion(self):
         return self.localizacion
 
+    def codificar(self):
+        cadena = str(self.localizacion['id'])
+        for item in self.lista:
+            cadena += "-" + str(item)
+        return cadena
+
     def __repr__(self):
         informacion = '[NODO {0}][por visitar: {1}]'.format(self.localizacion['id'], self.lista)
         return informacion
