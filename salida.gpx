@@ -1,0 +1,98 @@
+<?xml version"1.0" encoding="UTF-8"?>
+<gpx
+  version="1.0"
+  creator="Miguel Angel, Pablo y Marcos">
+<metadata>                    
+	<estrategia>A</estrategia>                    
+	<costo>760.9946357889186</costo>                    
+	<profundidad>8</profundidad>                    
+	<complejidad_temporal>0.005170999999999815<\complejidad_temporal>                    
+	<complejidad_espacial>89<\complejidad_espacial>                
+</metadata>
+<wpt lat="38.9849554" lon="-3.9259886">                    
+	<name>812954564</name>                    
+</wpt>
+<wpt lat="38.9875201" lon="-3.9241009">                        
+	<name>803292583</name>                        
+</wpt>
+<wpt lat="38.9868276" lon="-3.9273352">                        
+	<name>812954600</name>                        
+</wpt>
+<trk>
+	<name>Ruta</name>
+		<trkseg>
+			<trkpt lat="38.9849554" lon="-3.9259886">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954564</name>                        
+				<costo>0</costo>                        
+				<valor>0</valor>                        
+				<profundidad>0</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9861262" lon="-3.9262159">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954436</name>                        
+				<costo>168.89887999433367</costo>                        
+				<valor>811.1002330423128</valor>                        
+				<profundidad>1</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9861329" lon="-3.9272632">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>765309500</name>                        
+				<costo>285.4876992851026</costo>                        
+				<valor>927.6890523330817</valor>                        
+				<profundidad>2</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9868276" lon="-3.9273352">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954600</name>                        
+				<costo>384.89866188784896</costo>                        
+				<valor>758.2425504664167</valor>                        
+				<profundidad>3</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9871176" lon="-3.9263141">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954573</name>                        
+				<costo>505.85925487074593</costo>                        
+				<valor>879.2031434493136</valor>                        
+				<profundidad>4</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9871659" lon="-3.9259562">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954598</name>                        
+				<costo>546.2917498826092</costo>                        
+				<valor>919.635638461177</valor>                        
+				<profundidad>5</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9872762" lon="-3.9257067">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>803292811</name>                        
+				<costo>578.2123089837477</costo>                        
+				<valor>951.5561975623154</valor>                        
+				<profundidad>6</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9873376" lon="-3.9249349">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>803292778</name>                        
+				<costo>664.5738958037608</costo>                        
+				<valor>1037.9177843823286</valor>                        
+				<profundidad>7</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9875201" lon="-3.9241009">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>803292583</name>                        
+				<costo>760.9946357889186</costo>                        
+				<valor>760.9946357889186</valor>                        
+				<profundidad>8</profundidad>                        
+			</trkpt>
+		</trkseg>                    
+	</trk>                    
+</gpx>

@@ -15,9 +15,8 @@ class EspacioEstados:
 
     def CrearGrafoFisico(self, graph, MinLong, MinLat, MaxLon, MaxLat):
         map = osmapi.OsmApi().Map(MinLong, MinLat, MaxLon, MaxLat)
-        print("leido")
         dict_nodes = {}
-        list_ways = []
+        list_ways  = []
         """
          A continución lo que llevamos a cabo es que vamos accediendo a cada uno de los diccionarios (nodos o vías) de la lista de diccionarios inicial.
          En caso de que el elemento sea una vía (type=way), que su atributo 'highway' sea del tipo 'residencial', 'peatonal' y 'nacional'.
