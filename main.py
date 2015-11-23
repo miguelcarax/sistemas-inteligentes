@@ -152,8 +152,8 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
                     \n\t<estrategia>{0}</estrategia>\
                     \n\t<costo>{1}</costo>\
                     \n\t<profundidad>{2}</profundidad>\
-                    \n\t<complejidad_temporal>{3}<\complejidad_temporal>\
-                    \n\t<complejidad_espacial>{4}<\complejidad_espacial>\
+                    \n\t<complejidad_temporal>{3}</complejidad_temporal>\
+                    \n\t<complejidad_espacial>{4}</complejidad_espacial>\
                 \n</metadata>'
                     .format(estrategia, costo_solucion, profundidad_solucion, complejidad_temporal, complejidad_espacial))
         file.write('\n<wpt lat="{0}" lon="{1}">\
