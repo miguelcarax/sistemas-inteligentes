@@ -86,10 +86,10 @@ class EspacioEstados:
             #sucesor = (nombre_accion, objeto_estado, coste)
             if item[0] in estado_l.getLista():
                 estado_l.getLista().remove(item[0])
-                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), sorted(estado_l.getLista())), item[1]))
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), estado_l.getLista()), item[1]))
                 estado_l.getLista().append(item[0])
             else:
-                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), sorted(estado_l.getLista())), item[1]))
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), estado_l.getLista()), item[1]))
 
         return sucesores
 

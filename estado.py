@@ -2,7 +2,7 @@ class Estado:
 
     def __init__(self, localizacion={}, lista=[]):
         self.localizacion = localizacion
-        self.lista = lista
+        self.lista = sorted(lista)
 
     def getLista(self):
         return self.lista
@@ -14,6 +14,12 @@ class Estado:
         cadena = str(self.localizacion['id'])
         for item in self.lista:
             cadena += "-" + str(item)
+        return cadena
+
+    def codificarLista(self):
+        cadena = ''
+        for item in self.lista:
+            cadena += str(item) + '-'
         return cadena
 
     def __repr__(self):

@@ -9,6 +9,7 @@ import nodo
 import distancia
 import os
 import time
+import gpxpy.gpx
 
 """
 La altitud de todos los puntos va a ser 0.
@@ -39,6 +40,7 @@ COSTO       = 'COSTOUNIFORME'
 ANCHURA     = 'ANCHURA'
 PROFUNDIDAD = 'PROFUNDIDAD'
 A           = 'A'
+VORAZ       = 'VORAZ'
 
 estados = {}
 
@@ -106,9 +108,16 @@ def CrearListaNodosArbol(problema_l, lista_sucesores,n_actual, prof_max, estrate
 
     elif estrategia == 'A':
         for suc in lista_sucesores:
-            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, (n_actual.get_costo() + suc[2]) + problema_l.h2(suc[1]))
+            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, (n_actual.get_costo() + suc[2]) + problema_l.h3(suc[1]))
             if not poda(n_nuevo):
                 nodos_arbol.append(n_nuevo)
+
+    elif estrategia == 'VORAZ':
+        for suc in lista_sucesores:
+            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, problema_l.h2(suc[1]))
+            if not poda(n_nuevo):
+                nodos_arbol.append(n_nuevo)
+
 
 
     return nodos_arbol
@@ -154,8 +163,22 @@ def Busqueda(problema,estrategia,max_prof, inc_prof):
 
     return solucion
 
+def construirGPX(solucion):
+    gpx = gpxpy.gpx.GPX()
+    gpx_track = gpxpy.gpx.GPXTrack()
+    gpx.tracks.append(gpx_track)
+
+    gpx_segment = gpxpy.gpx.GPXTrackSegment()
+    gpx_track.segments.append(gpx_segment)
+
+    for item in solucion:
+        elemento = item.getLocalizacion()
+        gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(elemento['lat'], elemento['lon'], elevation = 0))
+    with open('solucion.gpx', 'w') as file:
+        file.write(gpx.to_xml())
+
 # main
-estrategia  = COSTO
+estrategia = A
 nodoInicial = 812954564
 lista = [803292583, 812954600]
 coordenadas = (-3.9524, 38.9531, -3.8877, 39.0086)
@@ -175,9 +198,11 @@ solucion = Busqueda(problema_l, estrategia, profundidad_max, incremento_profunid
 t2 = time.clock()
 print(t2-t1)
 
+print(problema.Problema.valores_h)
+
+for item in solucion:
+    print(item)
+
+construirGPX(solucion)
+
 # Escritura en el archivo de la solución al problema
-with open('solucion.out','w') as file:
-    file.write('Coordenadas de búsqueda: {0}\nEstado Inicial: ({1}, {2})\n'.format(coordenadas, nodoInicial, lista))
-    file.write('Algoritmo de búsqueda: {0}\n\n'.format(estrategia))
-    for index, item in enumerate(solucion):
-        file.write('[{0}]{1}\n'.format(index, item))
