@@ -9,7 +9,6 @@ import nodo
 import distancia
 import os
 import time
-import gpxpy.gpx
 
 """
 La altitud de todos los puntos va a ser 0.
@@ -72,13 +71,13 @@ def CrearListaNodosArbol(problema_l, lista_sucesores,n_actual, prof_max, estrate
 
     if estrategia == 'PROFUNDIDAD':
         if prof_max == 0 or n_actual.get_profundidad() < prof_max:
-            if n_actual.get_padre() is not None:
-                for suc in lista_sucesores:
-                    if EsAntecesor(n_actual, suc[1]):
-                        nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,1/(n_actual.get_profundidad()+1)))
-            else:
-                for suc in lista_sucesores:
-                    nodos_arbol.append(nodo.Nodo(n_actual,suc[1],n_actual.get_costo()+suc[2],suc[0],n_actual.get_profundidad()+1,1/(n_actual.get_profundidad()+1)))
+            for suc in lista_sucesores:
+                n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo()+suc[2], suc[0], n_actual.get_profundidad()+1, 1/(n_actual.get_profundidad()+1))
+                nodos_arbol.append(n_nuevo)
+            """
+                if not poda(n_nuevo):
+                    nodos_arbol.append(n_nuevo)
+            """
 
     elif estrategia == 'ANCHURA':
         for suc in lista_sucesores:
@@ -100,7 +99,7 @@ def CrearListaNodosArbol(problema_l, lista_sucesores,n_actual, prof_max, estrate
 
     elif estrategia == 'VORAZ':
         for suc in lista_sucesores:
-            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, problema_l.h2(suc[1]))
+            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, problema_l.h1(suc[1]))
             if not poda(n_nuevo):
                 nodos_arbol.append(n_nuevo)
 
@@ -183,7 +182,7 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
                     \n</gpx>')
 
 # main
-estrategia  = A
+estrategia  = PROFUNDIDAD
 nodoInicial = 812954564
 #lista       = [803292583, 812954600]
 coordenadas = (-3.9524, 38.9531, -3.8877, 39.0086)
@@ -193,12 +192,12 @@ espacioEstados = espacioEstados.EspacioEstados(coordenadas)
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412,818781546, 824372789, 804689127, 828480073, 827212563, 804689127])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(nodoInicial),lista)
-estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
+#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
+estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(803292594),[814770929, 2963385997, 522198144])
 problema_l = problema.Problema(estadoInicial, espacioEstados)
 # Búsqueda(problema, estrategia, Profunidad Máxima, Incremento Profundidad)
-profundidad_max, incremento_profunidad = 50, 1
+profundidad_max, incremento_profunidad = 100, 1
 t1 = time.clock()
 nodos, solucion = Busqueda(problema_l, estrategia, profundidad_max, incremento_profunidad)
 t2 = time.clock()
