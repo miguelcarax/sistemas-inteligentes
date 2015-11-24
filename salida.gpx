@@ -1,97 +1,273 @@
-<?xml version"1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <gpx
   version="1.0"
   creator="Miguel Angel, Pablo y Marcos">
 <metadata>                    
 	<estrategia>A</estrategia>                    
-	<costo>760.9946357889186</costo>                    
-	<profundidad>8</profundidad>                    
-	<complejidad_temporal>0.005170999999999815<\complejidad_temporal>                    
-	<complejidad_espacial>89<\complejidad_espacial>                
+	<costo>1763.2654301045463</costo>                    
+	<profundidad>30</profundidad>                    
+	<complejidad_temporal>0.06954499999999975</complejidad_temporal>                    
+	<complejidad_espacial>1360</complejidad_espacial>                
 </metadata>
-<wpt lat="38.9849554" lon="-3.9259886">                    
-	<name>812954564</name>                    
+<wpt lat="38.984168" lon="-3.9301768">                    
+	<name>804689213</name>                    
 </wpt>
-<wpt lat="38.9875201" lon="-3.9241009">                        
-	<name>803292583</name>                        
+<wpt lat="38.9862541" lon="-3.9248877">                        
+	<name>765309507</name>                        
 </wpt>
-<wpt lat="38.9868276" lon="-3.9273352">                        
-	<name>812954600</name>                        
+<wpt lat="38.9880894" lon="-3.9321485">                        
+	<name>806369170</name>                        
 </wpt>
 <trk>
 	<name>Ruta</name>
 		<trkseg>
-			<trkpt lat="38.9849554" lon="-3.9259886">                        
+			<trkpt lat="38.984168" lon="-3.9301768">                        
 				<ele>0</ele>                        
 				<time>0</time>                        
-				<name>812954564</name>                        
+				<name>804689213</name>                        
 				<costo>0</costo>                        
 				<valor>0</valor>                        
 				<profundidad>0</profundidad>                        
 			</trkpt>
-			<trkpt lat="38.9861262" lon="-3.9262159">                        
+			<trkpt lat="38.9846093" lon="-3.9304042">                        
 				<ele>0</ele>                        
 				<time>0</time>                        
-				<name>812954436</name>                        
-				<costo>168.89887999433367</costo>                        
-				<valor>811.1002330423128</valor>                        
+				<name>522198135</name>                        
+				<costo>67.84187540322867</costo>                        
+				<valor>1593.2143416358342</valor>                        
 				<profundidad>1</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9848594" lon="-3.9308251">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>765350900</name>                        
+				<costo>126.72992208386131</costo>                        
+				<valor>1652.1023883164669</valor>                        
+				<profundidad>2</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9850035" lon="-3.931047">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806368906</name>                        
+				<costo>158.864086293157</costo>                        
+				<valor>1684.2365525257626</valor>                        
+				<profundidad>3</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9851346" lon="-3.9312455">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806368896</name>                        
+				<costo>187.81094543176144</costo>                        
+				<valor>1713.183411664367</valor>                        
+				<profundidad>4</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9854723" lon="-3.9318049">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806368885</name>                        
+				<costo>266.5372051737319</costo>                        
+				<valor>1791.9096714063376</valor>                        
+				<profundidad>5</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.985546" lon="-3.9319269">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806369110</name>                        
+				<costo>283.71112604833957</costo>                        
+				<valor>1809.0835922809451</valor>                        
+				<profundidad>6</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9859522" lon="-3.9325998">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806368894</name>                        
+				<costo>378.4092830394628</costo>                        
+				<valor>1903.7817492720683</valor>                        
+				<profundidad>7</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9861887" lon="-3.9329914">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>765350899</name>                        
+				<costo>433.5292516297591</costo>                        
+				<valor>1958.9017178623646</valor>                        
+				<profundidad>8</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9864817" lon="-3.93286">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806369140</name>                        
+				<costo>477.8066330376418</costo>                        
+				<valor>2003.1790992702474</valor>                        
+				<profundidad>9</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9868296" lon="-3.932704">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>765350901</name>                        
+				<costo>530.3798097362672</costo>                        
+				<valor>2055.7522759688727</valor>                        
+				<profundidad>10</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9871682" lon="-3.9325738">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>765350897</name>                        
+				<costo>580.8037323872995</costo>                        
+				<valor>2106.1761986199053</valor>                        
+				<profundidad>11</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9880894" lon="-3.9321485">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806369170</name>                        
+				<costo>720.4688961510927</costo>                        
+				<valor>1570.0720257572566</valor>                        
+				<profundidad>12</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9877489" lon="-3.9315304">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806369152</name>                        
+				<costo>804.6897906762965</costo>                        
+				<valor>1654.2929202824605</valor>                        
+				<profundidad>13</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.987412" lon="-3.9309543">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806369098</name>                        
+				<costo>884.8270660170989</costo>                        
+				<valor>1734.430195623263</valor>                        
+				<profundidad>14</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9870323" lon="-3.9311172">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>504665869</name>                        
+				<costo>941.9407671545364</costo>                        
+				<valor>1791.5438967607004</valor>                        
+				<profundidad>15</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9868683" lon="-3.9306733">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>503708628</name>                        
+				<costo>996.6125240010432</costo>                        
+				<valor>1846.215653607207</valor>                        
+				<profundidad>16</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9867987" lon="-3.9304709">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>806368948</name>                        
+				<costo>1021.2336668771097</costo>                        
+				<valor>1870.8367964832737</valor>                        
+				<profundidad>17</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9866656" lon="-3.9302491">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>504665871</name>                        
+				<costo>1052.3791675326333</costo>                        
+				<valor>1901.9822971387973</valor>                        
+				<profundidad>18</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9861833" lon="-3.9295525">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>522198141</name>                        
+				<costo>1156.0400888888098</costo>                        
+				<valor>2005.6432184949738</valor>                        
+				<profundidad>19</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9860635" lon="-3.9292955">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>504665878</name>                        
+				<costo>1189.363648645366</costo>                        
+				<valor>2038.96677825153</valor>                        
+				<profundidad>20</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9859105" lon="-3.9290269">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>368287512</name>                        
+				<costo>1226.380761819486</costo>                        
+				<valor>2075.9838914256497</valor>                        
+				<profundidad>21</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9856513" lon="-3.9288674">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954478</name>                        
+				<costo>1267.3935664551752</costo>                        
+				<valor>2116.996696061339</valor>                        
+				<profundidad>22</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9857634" lon="-3.9283986">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954453</name>                        
+				<costo>1321.9745832680753</costo>                        
+				<valor>2171.5777128742393</valor>                        
+				<profundidad>23</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9859962" lon="-3.9284367">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954639</name>                        
+				<costo>1355.4490990518302</costo>                        
+				<valor>2205.0522286579944</valor>                        
+				<profundidad>24</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9860453" lon="-3.927872">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954664</name>                        
+				<costo>1418.700116134888</costo>                        
+				<valor>2268.303245741052</valor>                        
+				<profundidad>25</profundidad>                        
+			</trkpt>
+			<trkpt lat="38.9860666" lon="-3.9272569">                        
+				<ele>0</ele>                        
+				<time>0</time>                        
+				<name>812954647</name>                        
+				<costo>1487.2401000448062</costo>                        
+				<valor>2336.84322965097</valor>                        
+				<profundidad>26</profundidad>                        
 			</trkpt>
 			<trkpt lat="38.9861329" lon="-3.9272632">                        
 				<ele>0</ele>                        
 				<time>0</time>                        
 				<name>765309500</name>                        
-				<costo>285.4876992851026</costo>                        
-				<valor>927.6890523330817</valor>                        
-				<profundidad>2</profundidad>                        
+				<costo>1496.7226040840278</costo>                        
+				<valor>2346.3257336901916</valor>                        
+				<profundidad>27</profundidad>                        
 			</trkpt>
-			<trkpt lat="38.9868276" lon="-3.9273352">                        
+			<trkpt lat="38.9861262" lon="-3.9262159">                        
 				<ele>0</ele>                        
 				<time>0</time>                        
-				<name>812954600</name>                        
-				<costo>384.89866188784896</costo>                        
-				<valor>758.2425504664167</valor>                        
-				<profundidad>3</profundidad>                        
+				<name>812954436</name>                        
+				<costo>1613.3114233748045</costo>                        
+				<valor>2462.9145529809684</valor>                        
+				<profundidad>28</profundidad>                        
 			</trkpt>
-			<trkpt lat="38.9871176" lon="-3.9263141">                        
+			<trkpt lat="38.986244" lon="-3.9256176">                        
 				<ele>0</ele>                        
 				<time>0</time>                        
-				<name>812954573</name>                        
-				<costo>505.85925487074593</costo>                        
-				<valor>879.2031434493136</valor>                        
-				<profundidad>4</profundidad>                        
+				<name>765309506</name>                        
+				<costo>1682.000564011004</costo>                        
+				<valor>2531.6036936171677</valor>                        
+				<profundidad>29</profundidad>                        
 			</trkpt>
-			<trkpt lat="38.9871659" lon="-3.9259562">                        
+			<trkpt lat="38.9862541" lon="-3.9248877">                        
 				<ele>0</ele>                        
 				<time>0</time>                        
-				<name>812954598</name>                        
-				<costo>546.2917498826092</costo>                        
-				<valor>919.635638461177</valor>                        
-				<profundidad>5</profundidad>                        
-			</trkpt>
-			<trkpt lat="38.9872762" lon="-3.9257067">                        
-				<ele>0</ele>                        
-				<time>0</time>                        
-				<name>803292811</name>                        
-				<costo>578.2123089837477</costo>                        
-				<valor>951.5561975623154</valor>                        
-				<profundidad>6</profundidad>                        
-			</trkpt>
-			<trkpt lat="38.9873376" lon="-3.9249349">                        
-				<ele>0</ele>                        
-				<time>0</time>                        
-				<name>803292778</name>                        
-				<costo>664.5738958037608</costo>                        
-				<valor>1037.9177843823286</valor>                        
-				<profundidad>7</profundidad>                        
-			</trkpt>
-			<trkpt lat="38.9875201" lon="-3.9241009">                        
-				<ele>0</ele>                        
-				<time>0</time>                        
-				<name>803292583</name>                        
-				<costo>760.9946357889186</costo>                        
-				<valor>760.9946357889186</valor>                        
-				<profundidad>8</profundidad>                        
+				<name>765309507</name>                        
+				<costo>1763.2654301045463</costo>                        
+				<valor>1763.2654301045463</valor>                        
+				<profundidad>30</profundidad>                        
 			</trkpt>
 		</trkseg>                    
 	</trk>                    

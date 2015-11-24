@@ -146,7 +146,7 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
     costo_solucion = solucion[len(solucion)-1].get_costo()
     estadoInicial = solucion[0].get_estado()
     with open('salida.gpx','w') as file:
-        file.write('<?xml version"1.0" encoding="UTF-8"?>')
+        file.write('<?xml version="1.0" encoding="UTF-8"?>')
         file.write('\n<gpx\n  version="1.0"\n  creator="Miguel Angel, Pablo y Marcos">')
         file.write('\n<metadata>\
                     \n\t<estrategia>{0}</estrategia>\
@@ -185,15 +185,15 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
 # main
 estrategia  = A
 nodoInicial = 812954564
-lista       = [803292583, 812954600]
+#lista       = [803292583, 812954600]
 coordenadas = (-3.9524, 38.9531, -3.8877, 39.0086)
 #coordenadas = (-3.9426, 38.9978, -3.9101, 38.9685)
 
 espacioEstados = espacioEstados.EspacioEstados(coordenadas)
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412,818781546, 824372789, 804689127, 828480073, 827212563, 804689127])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412])
-estadoInicial = estado.Estado(espacioEstados.getNodeOsm(nodoInicial),lista)
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
+#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(nodoInicial),lista)
+estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(803292594),[814770929, 2963385997, 522198144])
 problema_l = problema.Problema(estadoInicial, espacioEstados)
