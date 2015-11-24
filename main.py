@@ -9,6 +9,7 @@ import nodo
 import distancia
 import os
 import time
+import datetime
 
 """
 La altitud de todos los puntos va a ser 0.
@@ -144,6 +145,9 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
     profundidad_solucion = solucion[len(solucion)-1].get_profundidad()
     costo_solucion = solucion[len(solucion)-1].get_costo()
     estadoInicial = solucion[0].get_estado()
+    ts = time.time()
+    velocidad = 1 #1 m/s
+    it=0
     with open('salida.gpx','w') as file:
         file.write('<?xml version="1.0" encoding="UTF-8"?>')
         file.write('\n<gpx\n  version="1.0"\n  creator="Miguel Angel, Pablo y Marcos">')
@@ -166,7 +170,10 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
                         .format(espacioEstados.getNodeOsm(item)['lat'], espacioEstados.getNodeOsm(item)['lon'], item))
 
         file.write('\n<trk>\n\t<name>Ruta</name>\n\t\t<trkseg>')
-        for item in solucion:
+        while it < len(solucion):
+            item = solucion[it]
+            if it!=0 :
+                ts += ((item.get_costo() - solucion[it-1].get_costo()) / velocidad)
             file.write('\n\t\t\t<trkpt lat="{0}" lon="{1}">\
                         \n\t\t\t\t<ele>0</ele>\
                         \n\t\t\t\t<time>{2}</time>\
@@ -176,13 +183,15 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
                         \n\t\t\t\t<profundidad>{6}</profundidad>\
                         \n\t\t\t</trkpt>'\
                         .format(item.get_estado().getLocalizacion()['lat'], item.get_estado().getLocalizacion()['lon'],
-                                0, item.get_estado().getLocalizacion()['id'], item.get_costo(), item.get_valor(), item.get_profundidad()))
+                                datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'), item.get_estado().getLocalizacion()['id'], item.get_costo(), item.get_valor(), item.get_profundidad()))
+            it += 1
         file.write('\n\t\t</trkseg>\
                     \n\t</trk>\
                     \n</gpx>')
 
+
 # main
-estrategia  = PROFUNDIDAD
+estrategia  = A
 nodoInicial = 812954564
 #lista       = [803292583, 812954600]
 coordenadas = (-3.9524, 38.9531, -3.8877, 39.0086)
