@@ -93,7 +93,7 @@ def CrearListaNodosArbol(problema_l, lista_sucesores,n_actual, prof_max, estrate
 
     elif estrategia == 'A':
         for suc in lista_sucesores:
-            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, (n_actual.get_costo() + suc[2]) + problema_l.h3(suc[1]))
+            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, (n_actual.get_costo() + suc[2]) + problema_l.h1(suc[1]))
             if not poda(n_nuevo):
                 nodos_arbol.append(n_nuevo)
 
@@ -182,18 +182,18 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
                     \n</gpx>')
 
 # main
-estrategia  = PROFUNDIDAD
+estrategia  = A
 nodoInicial = 812954564
 #lista       = [803292583, 812954600]
 coordenadas = (-3.9524, 38.9531, -3.8877, 39.0086)
 #coordenadas = (-3.9426, 38.9978, -3.9101, 38.9685)
 
 espacioEstados = espacioEstados.EspacioEstados(coordenadas)
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412,818781546, 824372789, 804689127, 828480073, 827212563, 804689127])
+estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412,818781546, 824372789, 804689127, 828480073, 827212563, 804689127])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(nodoInicial),lista)
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
-estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
+#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
 #estadoInicial = estado.Estado(espacioEstados.getNodeOsm(803292594),[814770929, 2963385997, 522198144])
 problema_l = problema.Problema(estadoInicial, espacioEstados)
 # Búsqueda(problema, estrategia, Profunidad Máxima, Incremento Profundidad)
