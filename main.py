@@ -155,6 +155,7 @@ def Busqueda(problema,estrategia,max_prof, inc_prof, opc_heuristica, podar):
     prof_act = inc_prof
 
     while not solucion and (prof_act <= max_prof):
+        estados.clear()
         nodos, solucion = Busqueda_acotada(problema,estrategia,prof_act, opc_heuristica, podar)
         prof_act += inc_prof
 
@@ -275,6 +276,9 @@ def datos():
 
 continuar = True
 introducirdatos = True
+coordenadas = None
+nodoInicial = None
+lista_nodos = None
 
 while(continuar):
     profundidad_max, incremento_profunidad = 0, 0
@@ -390,11 +394,11 @@ while(continuar):
             podar = False
 
 
-        espacioEstados = espacioEstados.EspacioEstados(coordenadas)
-        estadoInicial = estado.Estado(espacioEstados.getNodeOsm(nodoInicial),lista_nodos)
-        
+        espacioestados = espacioEstados.EspacioEstados(coordenadas)
+        estadoInicial = estado.Estado(espacioestados.getNodeOsm(nodoInicial),lista_nodos)
+
         try:
-            problema_l = problema.Problema(estadoInicial, espacioEstados)
+            problema_l = problema.Problema(estadoInicial, espacioestados)
             resolver = True
 
         except problema.EstadoNoValido as e:
@@ -407,6 +411,6 @@ while(continuar):
             nodos, solucion = Busqueda(problema_l, estrategia, profundidad_max, incremento_profunidad, opc_heuristica, poda)
             t2 = time.clock()
             tiempo_procesamiento = t2-t1
-            construirGPX(espacioEstados, estrategia, nodos, tiempo_procesamiento, solucion)
+            construirGPX(espacioestados, estrategia, nodos, tiempo_procesamiento, solucion)
 
             print('\n¡Ruta construida!, Enhorabuena.\n')
