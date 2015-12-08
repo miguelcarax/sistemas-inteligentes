@@ -11,48 +11,21 @@ import os
 import time
 import datetime
 
-"""
-La altitud de todos los puntos va a ser 0.
-Crear sello de tiempo para cada nodo basado en los metros de nodo a nodo.
-
-Se añaden etiquetas: estrategia utilizada, costo de la solucion, profundidad de la solucion
-encontrada, informacion de complejidad temporal y espacial, estado inicial.
-
-visualizer GPX ---> visualizer GPS
-
-
-Estructura principal
-----------------------------------------
-graph {
-    nodo : { }
-}
-nodo {
-    'lat'   : latitud
-    'lon'   : longitud
-    'tag'   : etiquetas(?) { }
-    'id'    : id del nodo
-    'edges' : [(nodo, coste), ...]
-}
-"""
-#CONSTANTES
-
 COSTO       = 'COSTOUNIFORME'
 ANCHURA     = 'ANCHURA'
 PROFUNDIDAD = 'PROFUNDIDAD'
 A           = 'A'
 VORAZ       = 'VORAZ'
+H_MAYOR_DISTANCIA = 1
+H_MAYOR_PROYECCION = 2
 
 estados = {}
 
-
 def CrearSolucion(n_actual):
-    """
-    Devuelve la lista de estados solucion al problema. Va cogiendo sucesivamente los padres a los nodos solución el arbol hasta que llega a la raíz.
-    """
     solucion = []
-    while n_actual.get_padre() is not None:
+    while n_actual.padre is not None:
         solucion.insert(0,n_actual)
-        n_actual = n_actual.get_padre()
+        n_actual = n_actual.padre
 
     solucion.insert(0,n_actual)
     return solucion
@@ -60,65 +33,40 @@ def CrearSolucion(n_actual):
 
 def poda(estrategia, nodo):
     podaF = True
-    est_codificado = nodo.get_estado().codificar()
+    est_codificado = nodo.estado.codificar()
     if estrategia == PROFUNDIDAD:
-        if est_codificado not in estados or estados[est_codificado] > nodo.get_costo():
-            estados[est_codificado] = nodo.get_costo()
+        if est_codificado not in estados or estados[est_codificado] > nodo.costo:
+            estados[est_codificado] = nodo.costo
             podaF = False
     else:
-        if est_codificado not in estados or estados[est_codificado] > nodo.get_valor():
-            estados[est_codificado] = nodo.get_valor()
+        if est_codificado not in estados or estados[est_codificado] > nodo.valor:
+            estados[est_codificado] = nodo.valor
             podaF = False
     return podaF
 
 
 def CrearListaNodosArbol(problema_l, lista_sucesores,n_actual, prof_max, estrategia, opc_heuristica, podar):
     nodos_arbol = []
-
-    if estrategia == 'PROFUNDIDAD':
-        if prof_max == 0 or n_actual.get_profundidad() < prof_max:
-            for suc in lista_sucesores:
-                n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo()+suc[2], suc[0], n_actual.get_profundidad()+1, 1/(n_actual.get_profundidad()+1))
-                if podar:
-                    if not poda(estrategia, n_nuevo):
-                        nodos_arbol.append(n_nuevo)
-                else:
-                    nodos_arbol.append(n_nuevo)
-
-
-    elif estrategia == 'ANCHURA':
+    if prof_max == 0 or n_actual.profundidad < prof_max:
         for suc in lista_sucesores:
-            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo()+suc[2], suc[0], n_actual.get_profundidad()+1, n_actual.get_profundidad()+1)
-            if podar:
-                if not poda(estrategia, n_nuevo):
-                    nodos_arbol.append(n_nuevo)
+            if estrategia == PROFUNDIDAD:
+                valor = 1/(n_actual.profundidad + 1)
+            elif estrategia == ANCHURA:
+                valor = n_actual.profundidad + 1
+            elif estrategia == COSTO:
+                valor = n_actual.costo + suc[2]
+            elif estrategia == VORAZ:
+                if opc_heuristica == H_MAYOR_DISTANCIA:
+                    valor =  problema_l.h1(suc[1])
+                elif opc_heuristica == H_MAYOR_PROYECCION:
+                    valor = problema_l.h2(suc[1])
             else:
-                nodos_arbol.append(n_nuevo)
+                if opc_heuristica == H_MAYOR_DISTANCIA:
+                    valor = n_actual.costo + suc[2] + problema_l.h1(suc[1])
+                elif opc_heuristica == H_MAYOR_PROYECCION:
+                    valor = n_actual.costo + suc[2] + problema_l.h2(suc[1])
 
-    elif estrategia == 'COSTOUNIFORME':
-        for suc in lista_sucesores:
-            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, n_actual.get_costo() + suc[2])
-            if podar:
-                if not poda(estrategia, n_nuevo):
-                    nodos_arbol.append(n_nuevo)
-            else:
-                nodos_arbol.append(n_nuevo)
-
-    elif estrategia == 'A':
-        for suc in lista_sucesores:
-            if opc_heuristica == 1:
-                n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, (n_actual.get_costo() + suc[2]) + problema_l.h1(suc[1]))
-            else:
-                n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, (n_actual.get_costo() + suc[2]) + problema_l.h3(suc[1]))
-            if podar:
-                if not poda(estrategia, n_nuevo):
-                    nodos_arbol.append(n_nuevo)
-            else:
-                nodos_arbol.append(n_nuevo)
-
-    elif estrategia == 'VORAZ':
-        for suc in lista_sucesores:
-            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.get_costo() + suc[2], suc[0], n_actual.get_profundidad()+1, problema_l.h1(suc[1]))
+            n_nuevo = nodo.Nodo(n_actual, suc[1], n_actual.costo+suc[2], suc[0], n_actual.profundidad+1, valor)
             if podar:
                 if not poda(estrategia, n_nuevo):
                     nodos_arbol.append(n_nuevo)
@@ -127,21 +75,22 @@ def CrearListaNodosArbol(problema_l, lista_sucesores,n_actual, prof_max, estrate
 
     return nodos_arbol
 
+
 def Busqueda_acotada(problema_l,estrategia,prof_max, opc_heuristica, podar):
     nodos = 0
     frontera_l = frontera.Frontera()
     solucion = False
     estados_solucion = []
-    n_inicial = nodo.Nodo(None, problema_l.get_estadoInicial(),0,None,0,0)
+    n_inicial = nodo.Nodo(None, problema_l.estadoInicial,0,None,0,0)
     frontera_l.insertar(n_inicial)
 
     while not solucion and not frontera_l.esVacia():
         n_actual = frontera_l.sacar_elemento()
         nodos += 1
-        if problema_l.esObjetivo(n_actual.get_estado()):
+        if problema_l.esObjetivo(n_actual.estado):
             solucion = True
         else:
-            lista_sucesores = problema_l.get_espacioEstados().sucesor(n_actual.get_estado())
+            lista_sucesores = problema_l.espacioEstados.sucesor(n_actual.estado)
             lista_nodos = CrearListaNodosArbol(problema_l, lista_sucesores,n_actual,prof_max,estrategia, opc_heuristica, podar)
             for item in lista_nodos:
                 frontera_l.insertar(item)
@@ -149,6 +98,7 @@ def Busqueda_acotada(problema_l,estrategia,prof_max, opc_heuristica, podar):
         estados_solucion = CrearSolucion(n_actual)
 
     return nodos, estados_solucion
+
 
 def Busqueda(problema,estrategia,max_prof, inc_prof, opc_heuristica, podar):
     solucion = []
@@ -161,10 +111,11 @@ def Busqueda(problema,estrategia,max_prof, inc_prof, opc_heuristica, podar):
 
     return nodos, solucion
 
+
 def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_temporal, solucion):
-    profundidad_solucion = solucion[len(solucion)-1].get_profundidad()
-    costo_solucion = solucion[len(solucion)-1].get_costo()
-    estadoInicial = solucion[0].get_estado()
+    profundidad_solucion = solucion[len(solucion)-1].profundidad
+    costo_solucion = solucion[len(solucion)-1].costo
+    estadoInicial = solucion[0].estado
     ts = time.time()
     velocidad = 1 #1 m/s
     it=0
@@ -182,8 +133,8 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
         file.write('\n<wpt lat="{0}" lon="{1}">\
                     \n\t<name>{2}</name>\
                     \n</wpt>'\
-                    .format(estadoInicial.getLocalizacion()['lat'], estadoInicial.getLocalizacion()['lon'], estadoInicial.getLocalizacion()['id']))
-        for item in estadoInicial.getLista():
+                    .format(espacioestados.getNodeOsm(estadoInicial.localizacion)['lat'], espacioestados.getNodeOsm(estadoInicial.localizacion)['lon'], estadoInicial.localizacion))
+        for item in estadoInicial.lista:
             file.write('\n<wpt lat="{0}" lon="{1}">\
                         \n\t<name>{2}</name>\
                         \n</wpt>'\
@@ -193,7 +144,7 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
         while it < len(solucion):
             item = solucion[it]
             if it!=0 :
-                ts += ((item.get_costo() - solucion[it-1].get_costo()) / velocidad)
+                ts += ((item.costo - solucion[it-1].costo) / velocidad)
             file.write('\n\t\t\t<trkpt lat="{0}" lon="{1}">\
                         \n\t\t\t\t<ele>0</ele>\
                         \n\t\t\t\t<time>{2}</time>\
@@ -202,55 +153,34 @@ def construirGPX(espacioEstados, estrategia, complejidad_espacial, complejidad_t
                         \n\t\t\t\t<valor>{5}</valor>\
                         \n\t\t\t\t<profundidad>{6}</profundidad>\
                         \n\t\t\t</trkpt>'\
-                        .format(item.get_estado().getLocalizacion()['lat'], item.get_estado().getLocalizacion()['lon'],
-                                datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'), item.get_estado().getLocalizacion()['id'], item.get_costo(), item.get_valor(), item.get_profundidad()))
+                        .format(espacioestados.getNodeOsm(item.estado.localizacion)['lat'], espacioestados.getNodeOsm(item.estado.localizacion)['lon'],
+                                datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'), item.estado.localizacion, item.costo, item.valor, item.profundidad))
             it += 1
         file.write('\n\t\t</trkseg>\
                     \n\t</trk>\
                     \n</gpx>')
 
 """
-# main
-estrategia  = COSTO
-nodoInicial = 812954564
-#lista       = [803292583, 812954600]
 coordenadas = (-3.9524, 38.9531, -3.8877, 39.0086)
-#coordenadas = (-3.9426, 38.9978, -3.9101, 38.9685)
-
-espacioEstados = espacioEstados.EspacioEstados(coordenadas)
-estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412,818781546, 824372789, 804689127])
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412])
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(nodoInicial),lista)
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(804689213),[765309507, 806369170])
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(765309500),[522198147, 812955433])
-#estadoInicial = estado.Estado(espacioEstados.getNodeOsm(803292594),[814770929, 2963385997, 522198144])
-problema_l = problema.Problema(estadoInicial, espacioEstados)
-# Búsqueda(problema, estrategia, Profunidad Máxima, Incremento Profundidad)
-profundidad_max, incremento_profunidad = 0, 0
-t1 = time.clock()
-nodos, solucion = Busqueda(problema_l, estrategia, profundidad_max, incremento_profunidad)
-t2 = time.clock()
-tiempo_procesamiento = t2-t1
-
-construirGPX(espacioEstados, estrategia, nodos, tiempo_procesamiento, solucion)"""
-
+ estado.Estado(espacioEstados.getNodeOsm(835519284),[801797283,794373412,818781546, 824372789, 804689127])
+"""
 
 def datos():
     lat_1,lat_2 = -91,-91
     lon_1,lon_2 = -181,-181
     lista_nodos = []
     while(lat_1<-90 or lat_1>90 or lat_2<-90 or lat_2>90 or lon_1<-180 or lon_1>180 or lon_2<-180 or lon_2>180 ):
-        print('Introduzca las coordenadas\n')
-        print('\nIntroduzca la latidud del primer punto:\n')
+        print('\nIntroduzca las coordenadas\n')
+        print('\nIntroduzca la latidud del mínima: ')
         lat_1 = float(input())
-        print('Introduzca la longitud del primer punto:\n')
+        print('\nIntroduzca la longitud del mínima: ')
         lon_1 = float(input())
-        print('Introduzca la latidud del segundo punto:\n')
+        print('\nIntroduzca la latidud del máxima: ')
         lat_2 = float(input())
-        print('Introduzca la longitud del segundo punto:\n')
+        print('\nIntroduzca la longitud del máxima: ')
         lon_2 = float(input())
         if(lat_1<-90 or lat_1>90 or lat_2<-90 or lat_2>90 or lon_1<-180 or lon_1>180 or lon_2<-180 or lon_2>180):
-            print('Error. Introduzca unos valores correctos')
+            print('\nError. Introduzca unos valores correctos.\n')
 
     coordenadas = (lat_1,lon_1,lat_2,lon_2)
 
@@ -259,24 +189,27 @@ def datos():
     n_nodos =0
 
     while(n_nodos < 1):
-        print('¿Cuántos nodos desea visitar:?')
+        print('\n¿Cuántos nodos desea visitar:?')
         n_nodos = int(input())
         if (n_nodos < 1):
-            print('Introduzca un valor mayor que cero.')
+            print('\nIntroduzca un valor mayor que cero.\n')
 
     n=0
 
     while(n<n_nodos):
-        print('Introduzca el siguiente nodo:')
+        print('\nIntroduzca el siguiente nodo:')
         nodosel = int(input())
         lista_nodos.append(nodosel)
         n += 1
 
-    return coordenadas, nodoInicial, lista_nodos
+    print('\nDescargando mapa...\nPor favor, espere...\n')
+
+    espacioestados = espacioEstados.EspacioEstados(coordenadas)
+
+    return nodoInicial, lista_nodos, espacioestados
 
 continuar = True
 introducirdatos = True
-coordenadas = None
 nodoInicial = None
 lista_nodos = None
 
@@ -287,7 +220,7 @@ while(continuar):
     podar = False
     opcion = -1
     if introducirdatos:
-        coordenadas, nodoInicial, lista_nodos = datos()
+        nodoInicial, lista_nodos, espacioestados = datos()
         introducirdatos = False
 
 
@@ -324,7 +257,7 @@ while(continuar):
         elif opcion_profundidad == 2:
             profundidad_max = 0
             while(profundidad_max < 1):
-                print('\nIntroduzca la profundidad maxima: \n')
+                print('\nIntroduzca la profundidad maxima:')
                 profundidad_max = int(input())
                 if profundidad_max < 1:
                     print('\nError. Introduzca una profundidad mayor que cero.')
@@ -333,17 +266,13 @@ while(continuar):
 
         elif opcion_profundidad == 3:
 
-            profundidad_max = 0
+            profundidad_max = 9999
             incremento_profunidad = 0
-            while(profundidad_max < 1 or incremento_profunidad < 1 or incremento_profunidad > profundidad_max):
-                print('\nIntroduzca la profundidad maxima: \n')
-                profundidad_max = int(input())
-                print('\nIntroduzca el incremento de profundidad en cada iteración: \n')
+            while(incremento_profunidad < 1):
+                print('\nIntroduzca el incremento de profundidad en cada iteración:')
                 incremento_profunidad = int(input())
                 if profundidad_max < 1:
-                    print('\nError. Introduzca una profundidad mayor que cero.')
-                if incremento_profunidad < 1 or incremento_profunidad > profundidad_max:
-                    print('\nError. Introduzca un incremento mayor que cero y menor que la profundidad maxima.')
+                    print('\nError. Introduzca un incremento mayor que cero.')
 
     elif opcion == 2:
         estrategia = ANCHURA
@@ -353,6 +282,15 @@ while(continuar):
 
     elif opcion == 4:
         estrategia = VORAZ
+        opc_heuristica = -1
+        while (opc_heuristica < 1 or opc_heuristica > 2):
+            print('\nIntroduzca la heuristica que desea:\n')
+            print('1 - Mayor distincia')
+            print('2 - Mayor proyección')
+            print('\nElija la opción que desee:')
+            opc_heuristica = int(input())
+            if(opc_heuristica < 1 or opc_heuristica > 2):
+                print('\nError. Elija una opción correcta.')
 
     elif opcion == 5:
         estrategia = A
@@ -361,13 +299,13 @@ while(continuar):
             print('\nIntroduzca la heuristica que desea:\n')
             print('1 - Mayor distincia')
             print('2 - Mayor proyección')
-            print('Elija la opción que desee:\n')
+            print('\nElija la opción que desee:')
             opc_heuristica = int(input())
             if(opc_heuristica < 1 or opc_heuristica > 2):
-                print('Error. Elija una opción correcta.')
+                print('\nError. Elija una opción correcta.')
 
     elif opcion == 6:
-        coordenadas, nodoInicial, lista_nodos = datos()
+        nodoInicial, lista_nodos, espacioestados = datos()
 
     elif opcion == 7:
         continuar = False
@@ -377,15 +315,15 @@ while(continuar):
         print('Morecho Chacón, Miguel Ángel\n')
         print('Gracias por utilizar nuestro programa.\n\nFinalizando programa...\n')
 
-    if opcion != 7:
+    if opcion != 6 and opcion != 7:
         while(op_poda<1 or op_poda>2):
             print('\n¿Desea que el algoritmo realice poda?:\n')
             print('1 - Si')
             print('2 - No')
-            print('Elija la opción que desee:\n')
+            print('\nElija la opción que desee:')
             op_poda = int(input())
             if(op_poda<1 or op_poda>2):
-                print('Error. Elija una opcion correcta.')
+                print('\nError. Elija una opcion correcta.')
 
         if op_poda == 1:
             podar = True
@@ -394,23 +332,20 @@ while(continuar):
             podar = False
 
 
-        espacioestados = espacioEstados.EspacioEstados(coordenadas)
-        estadoInicial = estado.Estado(espacioestados.getNodeOsm(nodoInicial),lista_nodos)
+        estadoInicial = estado.Estado(espacioestados.getNodeOsm(nodoInicial)['id'],lista_nodos)
 
         try:
             problema_l = problema.Problema(estadoInicial, espacioestados)
-            resolver = True
-
-        except problema.EstadoNoValido as e:
-            print(e)
-            resolver = False
-            introducirdatos = True
-
-        if resolver:
             t1 = time.clock()
             nodos, solucion = Busqueda(problema_l, estrategia, profundidad_max, incremento_profunidad, opc_heuristica, poda)
             t2 = time.clock()
             tiempo_procesamiento = t2-t1
-            construirGPX(espacioestados, estrategia, nodos, tiempo_procesamiento, solucion)
+            if(len(solucion)>0):
+                construirGPX(espacioestados, estrategia, nodos, tiempo_procesamiento, solucion)
+                print('\n¡Ruta construida!, Enhorabuena.\n')
+            else:
+                print('\nNo existe solución para el problema dado.\n')
 
-            print('\n¡Ruta construida!, Enhorabuena.\n')
+        except problema.EstadoNoValido as e:
+            print(e)
+            introducirdatos = True

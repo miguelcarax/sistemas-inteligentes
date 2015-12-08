@@ -67,9 +67,9 @@ class EspacioEstados:
     #Comprueba si el estado existe en el grafo y todos los nodos que le quedan por visitar
     #también existen en el grafo
     def esValido(self, estado):
-        flag = self.graph.node_exist(estado.getLocalizacion()['id'])
+        flag = self.graph.node_exist(estado.localizacion)
         if flag:
-            for elemento in estado.getLista():
+            for elemento in estado.lista:
                 flag = self.graph.node_exist(elemento)
                 if not flag:
                     break
@@ -78,17 +78,17 @@ class EspacioEstados:
 
     def sucesor(self, estado_l):
         #adyacencia = [(nodo, coste), (nodo, coste), ...]
-        adyacencia = self.graph.get_ady(estado_l.getLocalizacion()['id'])
+        adyacencia = self.graph.get_ady(estado_l.localizacion)
         sucesores  = []
         for item in adyacencia:
             #miramos si el item está en la lista de los que quedan por recorrer
             #sucesor = (nombre_accion, objeto_estado, coste)
-            if item[0] in estado_l.getLista():
-                estado_l.getLista().remove(item[0])
-                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), estado_l.getLista()), item[1]))
-                estado_l.getLista().append(item[0])
+            if item[0] in estado_l.lista:
+                estado_l.lista.remove(item[0])
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.localizacion, item[0]), estado.Estado(self.graph.get_node(item[0])['id'], estado_l.lista), item[1]))
+                estado_l.lista.append(item[0])
             else:
-                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.getLocalizacion()['id'], item[0]), estado.Estado(self.graph.get_node(item[0]), estado_l.getLista()), item[1]))
+                sucesores.append(("Desde {0} hasta {1}.".format(estado_l.localizacion, item[0]), estado.Estado(self.graph.get_node(item[0])['id'], estado_l.lista), item[1]))
 
         return sucesores
 

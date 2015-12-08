@@ -3,32 +3,30 @@ import estado
 import distancia
 import itertools
 
+
+class EstadoNoValido(Exception):
+    def __str__(self):
+        return '¡¡¡Estado No Válido!!!\nIntroduzca uno válido.\n'
+
 class Problema:
-    valores_h = {}
 
     def __init__(self, estadoInicial_l, espacioEstados_l):
-        self.espacioEstados_e = espacioEstados_l
-        if self.espacioEstados_e.esValido(estadoInicial_l):
-            self.estadoInicial_e = estadoInicial_l
+        self.espacioEstados = espacioEstados_l
+        if self.espacioEstados.esValido(estadoInicial_l):
+            self.estadoInicial = estadoInicial_l
         else:
-            print('¡¡¡Estado No Válido!!!\nIntroduzca uno válido.')
+            raise EstadoNoValido
 
     def esObjetivo(self, estado_l):
-        return not estado_l.getLista()
-
-    def get_estadoInicial(self):
-        return self.estadoInicial_e
-
-    def get_espacioEstados(self) :
-        return self.espacioEstados_e
+        return not estado_l.lista
 
     def h1(self, estado):
-        lonAct = estado.getLocalizacion()['lon']
-        latAct = estado.getLocalizacion()['lat']
-        lista = estado.getLista()
+        lonAct = self.espacioEstados.getNodeOsm(estado.localizacion)['lon']
+        latAct = self.espacioEstados.getNodeOsm(estado.localizacion)['lat']
+        lista = estado.lista
         distanciaMax = -1
         for item in lista:
-            nodoDestino = self.espacioEstados_e.getNodeOsm(item)
+            nodoDestino = self.espacioEstados.getNodeOsm(item)
             distanciaAux = distancia.dist(lonAct, latAct, nodoDestino['lon'], nodoDestino['lat'])
             if distanciaAux > distanciaMax:
                 distanciaMax = distanciaAux
@@ -36,50 +34,20 @@ class Problema:
         return distanciaMax
 
     def h2(self, estado):
-        lonAct = estado.getLocalizacion()['lon']
-        latAct = estado.getLocalizacion()['lat']
-        lista = estado.getLista()
-        distanciaMin = 999999999
+        maxlat = self.espacioEstados.getNodeOsm(estado.localizacion)['lat']
+        minlat = maxlat
+        maxlon = self.espacioEstados.getNodeOsm(estado.localizacion)['lon']
+        minlon = maxlon
+        lista = estado.lista
         for item in lista:
-            nodoDestino = self.espacioEstados_e.getNodeOsm(item)
-            distanciaAux = distancia.dist(lonAct, latAct, nodoDestino['lon'], nodoDestino['lat'])
-            if distanciaAux < distanciaMin:
-                distanciaMin = distanciaAux
+            nodo = self.espacioEstados.getNodeOsm(item)
+            if maxlat < nodo['lat']:
+                maxlat = nodo['lat']
+            elif minlat > nodo['lat']:
+                minlat = nodo['lat']
+            if maxlon < nodo['lat']:
+                maxlon = nodo['lon']
+            elif minlon > nodo['lon']:
+                minlon = nodo['lon']
 
-        return distanciaMin
-
-
-    def h3(self, estado):
-        latAct = estado.getLocalizacion()['lat']
-        lonAct = estado.getLocalizacion()['lon']
-        distMax = 999999999
-        # x es una tupla de un elemento que contiene una lista
-        lista = estado.getLista()
-        lista_codificada = estado.codificarLista()
-        if lista:
-            if lista_codificada not in Problema.valores_h:
-                for x in itertools.permutations(lista):
-                    it = 0
-                    nodoDestino = self.espacioEstados_e.getNodeOsm(x[it])
-                    distAux = distancia.dist(lonAct, latAct, nodoDestino['lon'], nodoDestino['lat'])
-                    while it < (len(x) - 1):
-                        nodoDestino1 = self.espacioEstados_e.getNodeOsm(x[it])
-                        nodoDestino2 = self.espacioEstados_e.getNodeOsm(x[it + 1])
-                        distAux += distancia.dist(nodoDestino1['lon'], nodoDestino1['lat'], nodoDestino2['lon'], nodoDestino2['lat'])
-                        it+=1
-                    if distAux < distMax:
-                        distMax = distAux
-                Problema.valores_h[lista_codificada] = distMax
-            else:
-                distMax = Problema.valores_h[lista_codificada]
-        else:
-            distMax = 0
-            
-        return distMax
-
-    def codificarLista(self, estado):
-        lista = estado.getLista()
-        cadena = ''
-        for item in lista:
-            cadena += str(item) + '-'
-        return cadena
+        return distancia.dist(maxlon, maxlat, minlon, minlat)
