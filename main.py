@@ -313,7 +313,7 @@ while(continuar):
         print('\nPrograma desarrollado por:\n')
         print('León Alcaide, Pablo')
         print('Ludeña Triviño, Marcos')
-        print('Morecho Chacón, Miguel Ángel\n')
+        print('Moreno Chacón, Miguel Ángel\n')
         print('Gracias por utilizar nuestro programa.\n\nFinalizando programa...\n')
 
     if opcion != 6 and opcion != 7:
