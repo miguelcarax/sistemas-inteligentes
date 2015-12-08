@@ -171,11 +171,11 @@ def datos():
     lista_nodos = []
     while(lat_1<-90 or lat_1>90 or lat_2<-90 or lat_2>90 or lon_1<-180 or lon_1>180 or lon_2<-180 or lon_2>180 ):
         print('\nIntroduzca las coordenadas\n')
-        print('\nIntroduzca la latidud del mínima: ')
+        print('\nIntroduzca la latitud del mínima: ')
         lat_1 = float(input())
         print('\nIntroduzca la longitud del mínima: ')
         lon_1 = float(input())
-        print('\nIntroduzca la latidud del máxima: ')
+        print('\nIntroduzca la latitud del máxima: ')
         lat_2 = float(input())
         print('\nIntroduzca la longitud del máxima: ')
         lon_2 = float(input())
@@ -225,15 +225,15 @@ while(continuar):
 
 
     while (opcion < 1 or opcion > 7 ):
-        print('\nMenú inicial. Elija una estrategia:\n')
+        print('\nMenú principal. Elija una estrategia:\n')
         print('1 - Profundidad')
         print('2 - Anchura')
-        print('3 - Costo Unifirme')
+        print('3 - Costo Uniforme')
         print('4 - Voraz')
         print('5 - A')
         print('6 - Introducir coordenadas y datos')
         print('7 - Salir del programa\n')
-        print('Introduzca la opción deseada: \n')
+        print('\nIntroduzca la opción deseada:')
         opcion = int(input())
         if(opcion < 1 or opcion > 7):
             print('\nError.Elija una opcion correcta.')
@@ -247,6 +247,7 @@ while(continuar):
             print('1 - Simple')
             print('2 - Acotada')
             print('3 - Iterativa')
+            print('\nIntroduzca la opción deseada:')
             opcion_profundidad = int(input())
             if(opcion_profundidad<1 or opcion_profundidad>3):
                 print('\nError.Elija una opcion correcta.')
