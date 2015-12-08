@@ -285,8 +285,8 @@ while(continuar):
         estrategia = VORAZ
         opc_heuristica = -1
         while (opc_heuristica < 1 or opc_heuristica > 2):
-            print('\nIntroduzca la heuristica que desea:\n')
-            print('1 - Mayor distincia')
+            print('\nIntroduzca la heurística que desea:\n')
+            print('1 - Mayor distancia')
             print('2 - Mayor proyección')
             print('\nElija la opción que desee:')
             opc_heuristica = int(input())
@@ -297,8 +297,8 @@ while(continuar):
         estrategia = A
         opc_heuristica = -1
         while (opc_heuristica < 1 or opc_heuristica > 2):
-            print('\nIntroduzca la heuristica que desea:\n')
-            print('1 - Mayor distincia')
+            print('\nIntroduzca la heurística que desea:\n')
+            print('1 - Mayor distancia')
             print('2 - Mayor proyección')
             print('\nElija la opción que desee:')
             opc_heuristica = int(input())
